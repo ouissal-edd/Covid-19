@@ -1,9 +1,6 @@
 const User = require('../models/User')
 
-
-
-
-
+const MailToUser = require('../mail/sendMail')
 
 
 // Creat  Manager
@@ -18,14 +15,19 @@ const createFormulair = async (req, res) => {
             dose,
             maladie,
             traitement,
+            effetsecFirstdose,
+            effetsecSeconddose,
+            centre,
+            email
+
 
         } = req.body;
       
 
         //validation 
         if (!age || !CIN || !adress || !tel || !dose )
-            return res.status(400).json({
-                errorMessage: "please enter amll require fields"
+            return res.status(200).json({
+                Message: "please enter amll require fields"
             })
   
            
@@ -33,10 +35,10 @@ const createFormulair = async (req, res) => {
         if(age >= 12 ){
         const existingUser = await User.findOne({CIN})
         if(existingUser){
-        if (existingUser.dose[0] === dose[0] || existingUser.dose[1] === dose[0] ||existingUser.dose[2] === dose[0])
+        if (existingUser.dose[0] === dose || existingUser.dose[1] === dose ||existingUser.dose[2] === dose)
         {
-             return res.status(400).json({
-            errorMessage: "You have already took this dose "
+             return res.status(200).json({
+            Message: "You have already took this dose "
         })
 
         }else{
@@ -46,6 +48,10 @@ const createFormulair = async (req, res) => {
                 $push: {
                     dose: dose
                 }
+                ,
+                effetsecFirstdose:effetsecFirstdose,
+                effetsecSeconddose:effetsecSeconddose,
+
             });
             return res.status(200).json({
                 Message: "Thank you :)"
@@ -62,8 +68,16 @@ const createFormulair = async (req, res) => {
                 dose :dose,
                 maladie :maladie,
                 traitement :traitement,
+                effetsecFirstdose:effetsecFirstdose,
+                effetsecSeconddose:effetsecSeconddose,
+                centre:centre
+
             })
-    
+                    if(dose == 'firstDose'){
+                    let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                    let DATE = new Date(y, m + 1, 0);
+                    await MailToUser(email, CIN,DATE,centre);
+    }
             const savedData = await newData.save();
             res.status(200).send();
             res.json(savedData)
@@ -73,8 +87,8 @@ const createFormulair = async (req, res) => {
   
     
 }else {
-        return res.status(400).json({
-            errorMsg:"your age most be more than 12 years old"
+        return res.status(200).json({
+            Message:"your age most be more than 12 years old"
 
         })
        

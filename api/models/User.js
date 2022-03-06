@@ -33,6 +33,18 @@ const userShcema = new mongoose.Schema({
     type: String,
 
   },
+  effetsecSeconddose:{
+    type:String
+  },
+  effetsecFirstdose:{
+    type:String
+  },
+  region:{
+    type:String
+  },
+  centre:{
+    type:String
+  },
   date:{
     type: Date,
     default: Date.now,
