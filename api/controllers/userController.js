@@ -1,6 +1,5 @@
 const User = require('../models/User')
-
-const MailToUser = require('../mail/sendMail')
+const MailToUser = require('../Mail/sendMail')
 
 
 // Creat  Manager
@@ -73,9 +72,11 @@ const createFormulair = async (req, res) => {
                 centre:centre
 
             })
+
                     if(dose == 'firstDose'){
                     let date = new Date(), y = date.getFullYear(), m = date.getMonth();
                     let DATE = new Date(y, m + 1, 0);
+                    console.log('treee',email, CIN,DATE,centre)
                     await MailToUser(email, CIN,DATE,centre);
     }
             const savedData = await newData.save();

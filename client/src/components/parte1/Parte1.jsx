@@ -91,7 +91,8 @@ const Parte1 = () => {
             'traitement': traitement,
             'effetsecFirstdose': effetsecFirstdose,
             'effetsecSeconddose': effetsecSeconddose,
-            'centre': centre
+            'centre': centre,
+            'email': email
         };
         await axios.post('http://localhost:8000/covid-data/createData', Data)
             .then(res => setRes(res.data.Message))
@@ -112,15 +113,14 @@ const Parte1 = () => {
     const [region, setCenterByregion] = useState([]);
 
     const getCentre = async () => {
-        const dataa = {
-            'region': region
-        }
-        const centerRes = await axios.get('http://localhost:8000/api/centre', dataa)
+        console.log(region)
+        const centerRes = await axios.get(`http://localhost:8000/api/centre/${region}`)
         setCentreData(centerRes.data.centre)
-        console.log('miko', centerRes.data.centre)
+
+        console.log('fromback', centerRes.data.centre)
 
     }
-    console.log('hahhahah', centreData)
+    console.log('voila', centreData)
 
     useEffect(() => {
         getRegion();

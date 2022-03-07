@@ -3,7 +3,7 @@ const router = express.Router();
 const {createCentre,getCentreByRegion,deleteCentre,updateCentre}= require('../controllers/centreController');
 const {checkTokenAdmin} = require('../auth/checkToken');
 router.post('/',checkTokenAdmin,createCentre);
-router.get('/',getCentreByRegion);
+router.get('/:id',getCentreByRegion);
 router.delete('/:id',checkTokenAdmin,deleteCentre);
 router.patch('/:id',checkTokenAdmin,updateCentre);
 

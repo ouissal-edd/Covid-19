@@ -25,12 +25,9 @@ const createCentre = async (req, res) => {
 
 const getCentreByRegion = async (req, res) => {
     try {
-        const {
-            region
-        } = req.body;
-
-       console.log(region)
-        const centre = await Centre.find({id_region:region});
+   console.log(req.params.id)
+    //    console.log(region)
+        const centre = await Centre.find({id_region:req.params.id});
         res.status(200).json({
             success: 1,
             centre,
